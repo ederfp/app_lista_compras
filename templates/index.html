@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Compras Neobrutalista</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+        :root {
+            --color-primary: #FF00FF; /* Magenta Vibrante */
+            --color-secondary: #00FFFF; /* Ciano Vibrante */
+            --color-accent: #FFFF00; /* Amarelo Vibrante */
+            --color-text: #000000; /* Preto */
+            --color-background: #F0F0F0; /* Cinza Claro */
+            --border-thickness: 5px;
+            --shadow-offset: 10px;
+        }
+
+        body {
+            font-family: 'Press Start 2P', cursive;
+            background-color: var(--color-background);
+            color: var(--color-text);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background-color: var(--color-primary);
+            border: var(--border-thickness) solid var(--color-text);
+            box-shadow: var(--shadow-offset) var(--shadow-offset) 0px var(--color-text);
+            padding: 30px;
+            margin-bottom: 40px;
+            width: 100%;
+            max-width: 600px;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: var(--shadow-offset);
+            left: var(--shadow-offset);
+            width: 100%;
+            height: 100%;
+            border: var(--border-thickness) solid var(--color-text);
+            box-sizing: border-box;
+            z-index: -1;
+        }
+
+        h1 {
+            color: var(--color-text);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.8em;
+            text-shadow: 3px 3px 0px var(--color-secondary);
+        }
+
+        form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        input[type="text"] {
+            flex-grow: 1;
+            padding: 15px;
+            border: var(--border-thickness) solid var(--color-text);
+            background-color: var(--color-accent);
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1em;
+            color: var(--color-text);
+            outline: none;
+            box-shadow: 5px 5px 0px var(--color-text);
+        }
+
+        input[type="text"]::placeholder {
+            color: rgba(0, 0, 0, 0.7);
+        }
+
+        button {
+            padding: 15px 25px;
+            background-color: var(--color-secondary);
+            color: var(--color-text);
+            border: var(--border-thickness) solid var(--color-text);
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1em;
+            cursor: pointer;
+            outline: none;
+            box-shadow: 5px 5px 0px var(--color-text);
+            transition: all 0.1s ease;
+        }
+
+        button:hover {
+            transform: translate(2px, 2px);
+            box-shadow: 3px 3px 0px var(--color-text);
+        }
+
+        button:active {
+            transform: translate(5px, 5px);
+            box-shadow: 0px 0px 0px var(--color-text);
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: var(--color-background);
+            border: var(--border-thickness) solid var(--color-text);
+            box-shadow: var(--shadow-offset) var(--shadow-offset) 0px var(--color-text);
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        li::before {
+            content: '';
+            position: absolute;
+            top: var(--shadow-offset);
+            left: var(--shadow-offset);
+            width: 100%;
+            height: 100%;
+            border: var(--border-thickness) solid var(--color-text);
+            box-sizing: border-box;
+            z-index: -1;
+        }
+
+        .item-name {
+            flex-grow: 1;
+            font-size: 1.1em;
+            word-break: break-word;
+        }
+
+        .item-actions {
+            display: flex;
+            gap: 10px;
+            margin-left: 20px;
+        }
+
+        .edit-form {
+            display: flex;
+            gap: 10px;
+            flex-grow: 1;
+        }
+
+        .edit-form input[type="text"] {
+            flex-grow: 1;
+            box-shadow: none;
+            background-color: var(--color-accent);
+        }
+
+        .edit-form button {
+            box-shadow: none;
+            background-color: var(--color-secondary);
+        }
+
+        .edit-button, .delete-button {
+            padding: 10px 15px;
+            font-size: 0.9em;
+            box-shadow: 3px 3px 0px var(--color-text);
+        }
+
+        .edit-button {
+            background-color: var(--color-accent);
+        }
+
+        .delete-button {
+            background-color: #FF6347; /* Tomate */
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            form {
+                flex-direction: column;
+            }
+
+            input[type="text"],
+            button {
+                width: 100%;
+            }
+
+            li {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .item-actions {
+                margin-top: 15px;
+                margin-left: 0;
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Lista de Compras</h1>
+
+        <form action="/add" method="post">
+            <input type="text" name="item_name" placeholder="Adicionar novo item..." required>
+            <button type="submit">Adicionar</button>
+        </form>
+
+        <ul id="shopping-list">
+            {% for item in shopping_list %}
+            <li id="item-{{ item.id }}">
+                <span class="item-name">{{ item.name }}</span>
+                <div class="item-actions">
+                    <button class="edit-button" onclick="showEditForm({{ item.id }}, '{{ item.name }}')">Editar</button>
+                    <a href="/delete/{{ item.id }}" class="delete-button"><button>Remover</button></a>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <script>
+        function showEditForm(itemId, itemName) {
+            const listItem = document.getElementById(`item-${itemId}`);
+            const currentNameSpan = listItem.querySelector('.item-name');
+            const actionsDiv = listItem.querySelector('.item-actions');
+
+            // Hide current name and actions
+            currentNameSpan.style.display = 'none';
+            actionsDiv.style.display = 'none';
+
+            // Create edit form
+            const editForm = document.createElement('form');
+            editForm.action = `/edit/${itemId}`;
+            editForm.method = 'post';
+            editForm.classList.add('edit-form');
+
+            const inputField = document.createElement('input');
+            inputField.type = 'text';
+            inputField.name = 'new_name';
+            inputField.value = itemName;
+            inputField.required = true;
+
+            const saveButton = document.createElement('button');
+            saveButton.type = 'submit';
+            saveButton.textContent = 'Salvar';
+
+            const cancelButton = document.createElement('button');
+            cancelButton.type = 'button';
+            cancelButton.textContent = 'Cancelar';
+            cancelButton.onclick = () => hideEditForm(itemId, itemName);
+
+            editForm.appendChild(inputField);
+            editForm.appendChild(saveButton);
+            editForm.appendChild(cancelButton);
+
+            listItem.prepend(editForm);
+            inputField.focus();
+        }
+
+        function hideEditForm(itemId, itemName) {
+            const listItem = document.getElementById(`item-${itemId}`);
+            const currentNameSpan = listItem.querySelector('.item-name');
+            const actionsDiv = listItem.querySelector('.item-actions');
+            const editForm = listItem.querySelector('.edit-form');
+
+            // Show current name and actions
+            currentNameSpan.style.display = 'block';
+            actionsDiv.style.display = 'flex';
+
+            // Remove edit form
+            if (editForm) {
+                listItem.removeChild(editForm);
+            }
+        }
+    </script>
+</body>
+</html>
