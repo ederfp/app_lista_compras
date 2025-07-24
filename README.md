@@ -54,27 +54,3 @@ pip install Flask
 ```bash
 python app.py
 ```
-
-Após executar o comando, a aplicação estará disponível em seu navegador no endereço:
-
-[http://127.0.0.1:5000/](http://127.0.0.1:5000/)
-
-### 5. Desativar o Ambiente Virtual
-
-Quando terminar de usar a aplicação, você pode desativar o ambiente virtual:
-
-```bash
-deactivate
-```
-
-## 📸 Screenshots
-
-*(Adicione aqui screenshots da sua aplicação para mostrar o design Neobrutalista em ação.)*
-
-## 📄 Licença
-
-Este projeto está licenciado sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
-## 👨‍💻 Autor
-
--   **Eder Fernandes** - [GitHub](https://github.com/ederfp)
